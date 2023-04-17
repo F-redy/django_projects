@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>Generator password</h1>
+    <form action="{% url 'generator:passwords' %}" method="get">
+        {#    {% csrf_token %}#}
+
+        <select name="length">
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12" selected="selected">12</option>
+            <option value="14">14</option>
+            <option value="16">16</option>
+            <option value="32">32</option>
+        </select> Length
+        <br>
+
+        <select name="count">
+            <option value="1" selected="selected">1</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select> Count
+        <br>
+        <input type="checkbox" name="lowercase"> Lowercase
+        <br>
+        <input type="checkbox" name="uppercase"> Uppercase
+        <br>
+        <input type="checkbox" name="numbers"> Numbers
+        <br>
+        <input type="checkbox" name="special"> Special Character
+        <br>
+
+        <input type="submit" value="Generation Password">
+    </form>
+
+
+{% endblock %}
