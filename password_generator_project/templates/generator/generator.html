@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    <h1>Password generator</h1>
+
+
+    <form class="text-start" action="{% url 'generator:index' %}" method="post">
+        {% csrf_token %}
+
+        {% for password in passwords %}
+            <div class="form-control form-control-lg text-center list-group-item-success my-1">
+                {{ password }}
+            </div>
+        {% endfor %}
+
+
+        <!-- length -->
+        <div class="d-flex align-items-center  col-md-3">
+            <label for="customRange2" class="form-label me-5">length:</label>
+            <div class="flex-grow-1">
+                <input type="text" class="form-control form-control-sm" id="rangeLengthValue"
+                       name="rangeLengthValue"
+                       readonly value="12">
+            </div>
+        </div>
+
+        <input type="range" class="form-range" min="4" max="45" id="customRange2" name="length"
+               onchange="updateLengthValue()" value="12">
+
+        <!-- Count -->
+        <div class="d-flex align-items-center  col-md-3">
+            <label for="customRangeCount" class="form-label me-5">count:</label>
+            <div class="flex-grow-1">
+                <input type="text" class="form-control form-control-sm" id="rangeTextCount" name="rangeTextCount"
+                       readonly value="1">
+            </div>
+        </div>
+        <input type="range" class="form-range" min="1" max="10" id="customRangeCount" name="count"
+               onchange="updateCountValue()" value="1">
+
+        <!--lowercase -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" name="lowercase" type="checkbox" role="switch"
+                   id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Lowercase</label>
+        </div>
+
+        <!-- uppercase -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" name="uppercase" type="checkbox" role="switch"
+                   id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Uppercase</label>
+        </div>
+
+        <!--numbers -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" name="numbers" type="checkbox" role="switch"
+                   id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Numbers</label>
+        </div>
+
+        <!--special character -->
+        <div class="form-check form-switch">
+            <input class="form-check-input" name="special" type="checkbox" role="switch"
+                   id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">Special Character</label>
+        </div>
+
+        <!-- bottom -->
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+            <input class="btn btn-dark my-1" type="submit" value="Generation Password">
+        </div>
+    </form>
+
+
+
+    <script>
+        function updateLengthValue() {
+            var lengthValue = document.getElementById("customRange2").value;
+            document.getElementById("rangeLengthValue").value = lengthValue;
+        }
+
+        function updateCountValue() {
+            var countValue = document.getElementById("customRangeCount").value;
+            document.getElementById("rangeTextCount").value = countValue;
+        }
+
+
+    </script>
+
+{% endblock %}
