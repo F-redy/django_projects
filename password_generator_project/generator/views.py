@@ -6,33 +6,43 @@ chars = {
     'lowercase': ascii_lowercase,
     'uppercase': ascii_uppercase,
     'numbers': '0123456789',
-    'special': '!#$%&*+-:;?@',
+    'special': '!#$%&*?@',
 }
 
 
 def index(request):
-    context = {
-        'title': 'Password Generator',
-    }
-    return render(request, 'generator/index.html', context=context)
+    if request.POST:
+        context = password(request)
+    else:
+        simbols = list(chars['lowercase'] + chars['uppercase'])
+        context = {
+            'title': 'Password generator',
+            'passwords': [generator(12, simbols)]
+
+        }
+    return render(request, 'generator/generator.html', context=context)
 
 
 def password(request):
-    length = int(request.GET.get('length'), 12)
-    count = int(request.GET.get('count'))
+    length = int(request.POST.get('length'), 12)
+    count = int(request.POST.get('count'))
     character_set = list()
 
     for name_char, char in chars.items():
-        if request.GET.get(name_char) == 'on':
+        if request.POST.get(name_char) == 'on':
             character_set.extend(char)
     shuffle(character_set)
 
     context = {
-        'title': 'Your Password',
+        'title': 'Password generator',
         'passwords': [generator(length, character_set) for _ in range(count)],
     }
 
-    return render(request, 'generator/passwords.html', context=context)
+    return context
+
+
+def about(request):
+    return render(request, 'generator/about.html', {'title': 'about - site'})
 
 
 def generator(length: int, symbols: list[str]) -> str:
