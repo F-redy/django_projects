@@ -27,15 +27,11 @@
                         </div>
                         <div class="card-body ">
                             <form action="{% url 'users:login' %}" method="post">
-                                <!-- Если срабатывает метод пост тогда отправляем данные по адресу users:login-->
                                 {% csrf_token %}
-
                                 {% for f in form %}
                                     <div class="form-group row-cols-7 d-md-flex justify-content-md-center  m-1">
-{#                                        <p class="m-0 p-0">#}
                                             <label for="{{ f.id_for_label }}"></label>
                                             {{ f }}
-{#                                        </p>#}
                                     </div>
                                 {% endfor %}
 
