@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'generator.apps.GeneratorConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,10 @@ STATICFILES_DIRS = (
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Users
+
+# AUTH_USER_MODEL = 'users.User'
+LOGIN_URL = '/users/login/'  # используется при использовании декоратора @login_required
+LOGIN_REDIRECT_URL = '/'  # куда перенаправлять пользователя после авторизации
+LOGOUT_REDIRECT_URL = '/'  # куда перенаправлять пользователя после выхода из системы
