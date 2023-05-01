@@ -7,7 +7,7 @@
     {% for news in news_list %}
         <div class="card mb-3">
             <div class="card-header d-flex justify-content-between">
-                <div>Категория: <a href="{% url 'news:category' news.cat.slug %}">{{ news.cat.title }}</a></div>
+                <div>Категория: <a href="{{ news.cat.get_absolute_url }}">{{ news.cat.title }}</a></div>
                 <div>Дата: {{ news.created_at|date:"Y-m-d H:i" }}</div>
             </div>
             <div class="card-body">
