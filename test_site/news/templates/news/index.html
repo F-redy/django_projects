@@ -2,10 +2,6 @@
 
 {% block title %} {{ title }} {% endblock %}
 
-
-{% block sidebar %} {% include 'inc/_sidebar.html' %} {% endblock %}
-
-
 {% block content %}
 
     {% for news in news_list %}
@@ -29,11 +25,6 @@
             <div class="d-flex justify-content-end mb-2 mr-2">
                 <a href="#" class="btn btn-primary">Читать больше...</a>
             </div>
-            {#                <div class="card-footer text-muted">#}
-            {#                    <div class="d-flex justify-content-end">#}
-            {#                        <a href="#" class="btn btn-primary">Читать больше...</a>#}
-            {#                    </div>#}
-            {#                </div>#}
         </div>
     {% endfor %}
 
