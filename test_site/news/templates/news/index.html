@@ -1,17 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
-{% for news in news_list %}
-<div>
-    <p>{{ news.title }}</p>
-    <p>{{ news.content }}</p>
-    <p>{{ news.created_at|date:"Y-m-d H:i" }}</p>
-</div>
-<hr>
-{% endfor %}
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block title %} {{ title }} {% endblock %}
+
+
+{% block sidebar %} {% include 'inc/_sidebar.html' %} {% endblock %}
+
+
+{% block content %}
+
+    {% for news in news_list %}
+        <div class="card mb-3">
+            <div class="card-header d-flex justify-content-between">
+                <div>Категория: <a href="{% url 'news:category' news.cat.slug %}">{{ news.cat.title }}</a></div>
+                <div>Дата: {{ news.created_at|date:"Y-m-d H:i" }}</div>
+            </div>
+            <div class="card-body">
+                <div class="media">
+                    {% if news.photo %}
+                        <img src="{{ news.photo.url }}" alt="photo about news" width="350" class="mr-3">
+                    {% endif %}
+                    <div class="media-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.content|truncatewords:100 }}</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex justify-content-end mb-2 mr-2">
+                <a href="#" class="btn btn-primary">Читать больше...</a>
+            </div>
+            {#                <div class="card-footer text-muted">#}
+            {#                    <div class="d-flex justify-content-end">#}
+            {#                        <a href="#" class="btn btn-primary">Читать больше...</a>#}
+            {#                    </div>#}
+            {#                </div>#}
+        </div>
+    {% endfor %}
+
+{% endblock %}
