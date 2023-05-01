@@ -1,0 +1,24 @@
+<div class="list-group">
+
+    {% if cat_selected == 0 %}
+        <a class="list-group-item list-group-item-action active" aria-current="true">Все категории</a>
+    {% else %}
+        <a href="{% url 'news:index' %}" class="list-group-item list-group-item-action">Все категории</a>
+    {% endif %}
+
+    {% for category in categories %}
+
+        {% if cat_selected == category.pk %}
+            <a class="list-group-item list-group-item-action active" aria-current="true">
+                {{ category.title }}
+            </a>
+        {% else %}
+            <a href="{% url 'news:category' category.slug %}"
+               class="list-group-item list-group-item-action">
+                {{ category.title }}
+            </a>
+        {% endif %}
+
+    {% endfor %}
+
+</div>
