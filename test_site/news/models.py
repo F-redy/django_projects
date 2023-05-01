@@ -1,3 +1,4 @@
+from django.urls import reverse
 from slugify import slugify
 from django.db import models
 
@@ -26,6 +27,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('news:category', kwargs={'cat_slug': self.slug})
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
         if not self.slug:
