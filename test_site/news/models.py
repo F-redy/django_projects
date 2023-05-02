@@ -11,9 +11,18 @@ class News(models.Model):
     photo = models.ImageField('фото', upload_to='photo/%Y/%m/%d/', blank=True)  # Y-год; m-месяц; d-день.
     is_published = models.BooleanField('Опубликовано', default=True)
     cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория', null=True)
+    slug = models.SlugField('url', max_length=250, blank=True, null=True, unique=True)
 
     def __str__(self):
         return self.title
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        if not self.slug:
+            self.slug = slugify(str(self.title))
+        super(News, self).save(force_insert=False, force_update=False, using=None, update_fields=None)
+
+    def get_absolute_url(self):
+        return reverse('news:show_news', kwargs={'news_slug': self.slug})
 
     class Meta:
         verbose_name = 'Новость'
