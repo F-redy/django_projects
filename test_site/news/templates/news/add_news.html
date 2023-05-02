@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ title }}{% endblock %}
+
+{% block content %}
+    <h1>Добавление новости</h1>
+
+    <form action="{% url 'news:add_news' %}" method="post">
+        {% csrf_token %}
+
+        {% for form in forms %}
+            <div class="form-group">
+
+                {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible fade show p-2" role="alert">
+                        {{ form.errors }}
+                    </div>
+                {% endif %}
+
+                <label for="{{ form.content.id_for_label }}">{{ form.label_tag }} </label>
+                {{ form }}
+
+            </div>
+        {% endfor %}
+
+
+
+        <button type="submit" class="btn btn-primary btn-block">Добавить новость</button>
+    </form>
+{% endblock %}
