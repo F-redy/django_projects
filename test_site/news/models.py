@@ -10,8 +10,8 @@ class News(models.Model):
     updated_at = models.DateTimeField('Дата изменения', auto_now=True)
     photo = models.ImageField('фото', upload_to='photo/%Y/%m/%d/', blank=True)  # Y-год; m-месяц; d-день.
     is_published = models.BooleanField('Опубликовано', default=True)
-    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория', null=True)
-    slug = models.SlugField('url', max_length=250, blank=True, null=True, unique=True)
+    cat = models.ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
+    slug = models.SlugField('url', max_length=250, blank=True, unique=True)
 
     def __str__(self):
         return self.title
