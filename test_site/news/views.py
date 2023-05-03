@@ -2,27 +2,26 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import News, Category
 from .forms import AddNewsForm
 
+from django.views.generic import ListView
 
-def index(request):
-    news = News.objects.all()
+from .utils import DataMixin
+
+
+class HomeView(DataMixin, ListView):
+    model = News
     title = 'Список новостей'
-    context = {
-        'news_list': news,
-        'title': title,
-        'cat_selected': 0,
-    }
-    return render(request, 'news/index.html', context=context)
+    cat_selected = 0
 
 
 def get_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
     news = News.objects.filter(cat_id=category.pk)
     context = {
-        'news_list': news,
+        'object_list': news,
         'title': f'Новости: {category.title}',
         'cat_selected': category.pk,
     }
-    return render(request, 'news/index.html', context=context)
+    return render(request, 'news/news_list.html', context=context)
 
 
 def show_news(request, news_slug):
