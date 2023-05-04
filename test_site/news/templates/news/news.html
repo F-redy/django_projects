@@ -10,15 +10,11 @@
                 <div>Дата: {{ news.created_at|date:"Y-m-d H:i" }}</div>
             </div>
             <div class="card-body">
-                <div class="media">
                     {% if news.photo %}
-                        <img src="{{ news.photo.url }}" alt="photo about news" width="350" class="mr-3">
+                        <img src="{{ news.photo.url }}" alt="photo about news" width="350" class="float-left mr-3">
                     {% endif %}
-                    <div class="media-body">
                         <h5 class="card-title">{{ news.title }}</h5>
                         <p class="card-text">{{ news.content|linebreaks }}</p>
-                    </div>
-                </div>
 
             </div>
 
