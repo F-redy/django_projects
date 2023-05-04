@@ -12,6 +12,25 @@ class HomeView(DataMixin, ListView):
     title = 'Список новостей'
     cat_selected = 0
 
+    def get_queryset(self):
+        return News.objects.filter(is_published=True).select_related('cat')
+
+
+class NewsByCategory(ListView):
+    model = News
+    slug_url_kwarg = 'cat_slug'
+    allow_empty = False
+
+    def get_context_data(self, **kwargs):
+        context = super(NewsByCategory, self).get_context_data(**kwargs)
+        category = get_object_or_404(Category, slug=self.kwargs['cat_slug'])
+        context['cat_selected'] = category.pk
+        context['title'] = f'Новости: {category.title}'
+        return context
+
+    def get_queryset(self):
+        return News.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('cat')
+
 
 def get_category(request, cat_slug):
     category = get_object_or_404(Category, slug=cat_slug)
