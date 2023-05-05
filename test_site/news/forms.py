@@ -7,6 +7,11 @@ from .models import News
 
 
 class AddNewsForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(AddNewsForm, self).__init__(*args, **kwargs)
+        self.fields['cat'].empty_label = 'Категория не выбрана'
+
     class Meta:
         model = News
         fields = ('title', 'content', 'is_published', 'cat')
