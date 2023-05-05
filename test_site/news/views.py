@@ -1,8 +1,7 @@
-from django.shortcuts import render, get_object_or_404, redirect
 from .models import News, Category
 from .forms import AddNewsForm
 
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .utils import DataMixin
 
@@ -19,7 +18,7 @@ class HomeView(DataMixin, ListView):
 class NewsByCategory(ListView):
     model = News
     slug_url_kwarg = 'cat_slug'
-    allow_empty = False
+    allow_empty = False  # Если коллекция пустая будет выбрасывать ошибку 404
 
     def get_context_data(self, **kwargs):
         context = super(NewsByCategory, self).get_context_data(**kwargs)
@@ -45,16 +44,6 @@ class ViewNews(DetailView):
         return context
 
 
-def add_news(request):
-    if request.method == 'POST':
-        form = AddNewsForm(request.POST)
-        if form.is_valid():
-            news = form.save()
-            return redirect(news)
-    else:
-        form = AddNewsForm()
-    context = {
-        'title': 'Добавление новости',
-        'forms': form,
-    }
-    return render(request, 'news/add_news.html', context=context)
+class CreateNews(CreateView):
+    form_class = AddNewsForm
+    template_name = 'news/add_news.html'
