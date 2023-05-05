@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import News, Category
 from .forms import AddNewsForm
 
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .utils import DataMixin
 
@@ -23,7 +23,7 @@ class NewsByCategory(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(NewsByCategory, self).get_context_data(**kwargs)
-        category = get_object_or_404(Category, slug=self.kwargs['cat_slug'])
+        category = Category.objects.get(slug=self.kwargs['cat_slug'])
         context['cat_selected'] = category.pk
         context['title'] = f'Новости: {category.title}'
         return context
@@ -32,25 +32,17 @@ class NewsByCategory(ListView):
         return News.objects.filter(cat__slug=self.kwargs['cat_slug'], is_published=True).select_related('cat')
 
 
-def get_category(request, cat_slug):
-    category = get_object_or_404(Category, slug=cat_slug)
-    news = News.objects.filter(cat_id=category.pk)
-    context = {
-        'object_list': news,
-        'title': f'Новости: {category.title}',
-        'cat_selected': category.pk,
-    }
-    return render(request, 'news/news_list.html', context=context)
+class ViewNews(DetailView):
+    model = News
+    slug_url_kwarg = 'news_slug'  # по умолчанию в url django ищет id или slug
+    context_object_name = 'news'  # по умолчанию object
 
-
-def show_news(request, news_slug):
-    news = get_object_or_404(News, slug=news_slug)
-    context = {
-        'news': news,
-        'title': news.title,
-        'cat_selected': news.cat_id
-    }
-    return render(request, 'news/news.html', context=context)
+    def get_context_data(self, **kwargs):
+        context = super(ViewNews, self).get_context_data(**kwargs)
+        news = News.objects.get(slug=self.kwargs['news_slug'])
+        context['title'] = news.title
+        context['cat_selected'] = news.cat_id
+        return context
 
 
 def add_news(request):
