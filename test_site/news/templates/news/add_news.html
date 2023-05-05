@@ -8,17 +8,17 @@
     <form action="{% url 'news:add_news' %}" method="post">
         {% csrf_token %}
 
-        {% for form in forms %}
+        {% for f in form %}
             <div class="form-group">
 
-                {% if form.errors %}
+                {% if f.errors %}
                     <div class="alert alert-danger alert-dismissible fade show p-2" role="alert">
-                        {{ form.errors }}
+                        {{ f.errors }}
                     </div>
                 {% endif %}
 
-                <label for="{{ form.content.id_for_label }}">{{ form.label_tag }} </label>
-                {{ form }}
+                <label for="{{ f.content.id_for_label }}">{{ f.label_tag }} </label>
+                {{ f }}
 
             </div>
         {% endfor %}
