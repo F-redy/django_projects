@@ -15,7 +15,7 @@ class HomeView(DataMixin, ListView):
         return News.objects.filter(is_published=True).select_related('cat')
 
 
-class NewsByCategory(ListView):
+class NewsByCategory(DataMixin, ListView):
     model = News
     slug_url_kwarg = 'cat_slug'
     allow_empty = False  # Если коллекция пустая будет выбрасывать ошибку 404
@@ -41,6 +41,7 @@ class ViewNews(DetailView):
         news = News.objects.get(slug=self.kwargs['news_slug'])
         context['title'] = news.title
         context['cat_selected'] = news.cat_id
+        news.add_views()
         return context
 
 
