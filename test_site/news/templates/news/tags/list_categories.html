@@ -1,22 +1,16 @@
 <div class="list-group">
 
-    {% if cat_selected == 0 %}
-        <a class="list-group-item list-group-item-action active" aria-current="true">Все категории</a>
-    {% else %}
-        <a href="{% url 'news:home' %}" class="list-group-item list-group-item-action">Все категории</a>
-    {% endif %}
+    <a href="{% url 'news:home' %}" class="list-group-item list-group-item-action
+    {% if cat_selected == 0 %} active {% endif %}"
+       aria-current="true">Все категории</a>
 
     {% for category in categories %}
-        {% if category.pk == cat_selected %}
-            <a class="list-group-item list-group-item-action active" aria-current="true">
-                {{ category.title }}
-            </a>
-        {% else %}
-            <a href="{{ category.get_absolute_url }}" class="list-group-item list-group-item-action">
-                {{ category.title }}
-            </a>
-        {% endif %}
-
+        <a href="{{ category.get_absolute_url }}"
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center
+            {% if category.pk == cat_selected %} active {% endif %}">
+            <span>{{ category.title }}</span>
+            <span class="ml-auto">{{ category.news__count }}</span>
+        </a>
     {% endfor %}
 
 </div>
