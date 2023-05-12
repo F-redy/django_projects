@@ -19,14 +19,18 @@
 <!-- Navbar -->
 {% include 'inc/_nav.html' %}
 
-<div class="container mt-3 shadow-lg p-3  bg-light rounded">
+<div class="container mt-3 shadow-lg p-3 bg-light rounded">
     <div class="row">
 
         <div class="col-md-3">
             {% show_categories cat_selected=cat_selected %}
         </div>
-        <div class="col md-9">
+        <div class="col-md-9">
             {% block content %} {% endblock %}
+
+            <!-- pagination -->
+            {% include 'inc/_pagination.html' %}
+
         </div>
     </div>
 </div>
