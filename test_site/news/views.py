@@ -2,6 +2,7 @@ from .models import News, Category
 from .forms import AddNewsForm
 
 from django.views.generic import ListView, DetailView, CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import DataMixin
 
@@ -45,6 +46,7 @@ class ViewNews(DetailView):
         return context
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
+    raise_exception = True
     form_class = AddNewsForm
     template_name = 'news/add_news.html'
