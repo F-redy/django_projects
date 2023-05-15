@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
 
     'news.apps.NewsConfig',
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [
