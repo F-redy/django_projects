@@ -2,17 +2,15 @@
 {% if is_paginated %}
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item {% if not page_obj.has_previous %} disabled {% endif %}">
-                <a class="page-link" tabindex="-1" aria-disabled="true"
-                   href="
-                    {% if page_obj.has_previous %}
-                    {% url 'news:paginator' page_obj.previous_page_number %}
-                    {% endif %}">
-                    Предыдущая
-                </a>
-            </li>
+            {% if page_obj.has_previous %}
+                <li class="page-item ">
+                    <a class="page-link" href="{% url 'news:paginator' page_obj.previous_page_number %}">
+                        Предыдущая
+                    </a>
+                </li>
+            {% endif %}
 
-            {% for page in paginator.page_range %}
+            {% for page in page_obj.paginator.page_range %}
                 {% if page_obj.number == page %}
                     <li class="page-item active" aria-current="page">
                         <a class="page-link">{{ page }}</a>
@@ -25,7 +23,7 @@
                     <li class="page-item">
                         <a class="page-link" href="{% url 'news:paginator' page %}">{{ page }}</a>
                     </li>
-                {% elif page >= page_obj.number|add:-2 and page <= page_obj.number|add:2 %}
+                {% elif page > page_obj.number|add:-3 and page < page_obj.number|add:3 %}
                     <li class="page-item">
                         <a class="page-link" href="{% url 'news:paginator' page %}">{{ page }}</a>
                     </li>
@@ -40,15 +38,13 @@
                 {% endif %}
             {% endfor %}
 
-            <li class="page-item {% if not page_obj.has_next %} disabled {% endif %}">
-                <a class="page-link"
-                   href="
-                        {% if page_obj.has_next %}
-                        {% url 'news:paginator' page_obj.next_page_number %}
-                        {% endif %}">
+            {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href=" {% url 'news:paginator' page_obj.next_page_number %}">
                     Следующая
                 </a>
             </li>
+            {% endif %}
         </ul>
     </nav>
 {% endif %}
